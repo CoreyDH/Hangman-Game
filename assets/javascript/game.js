@@ -16,27 +16,28 @@
       this.alreadyGuessed = [];
       this.chances = 10;
 
-      // Generate a random word!
-      this.generateWord();
+      if(this.wordList.length < 1)
+        this.getList();
 
     },
 
-    getList : function() {
+    getList : function(generateWord) {
 
       var xhr = new XMLHttpRequest();
 
-      xhr.open('GET', '../words.txt', true);
+      xhr.open('GET', 'assets/words.txt', true);
       xhr.onreadystatechange = function() {
 
         if(xhr.readyState === 4 ) {
 
-          this.wordList = xhr.responseText.split('\n');
+          hangman.wordList = xhr.responseText.split(/\s+/);
+          hangman.generateWord();
 
         }
 
-      xhr.send();
-
       };
+
+      xhr.send();
 
     },
 
@@ -45,6 +46,7 @@
       // Generate a random index
       var rand = Math.floor(Math.random()*this.wordList.length);
       this.word = this.wordList[rand];
+      console.log(this.word);
 
       // Create HTML skeleton
       this.createHTML();
@@ -193,14 +195,14 @@
     // Check if letter is in the word
     hangman.checkInWord();
 
-
-
-
-
-
-
-
-
   };
+
+  // Event listeners
+  document.getElementById('hangman-generate').addEventListener('click', function(event) {
+
+    event.preventDefault();
+    hangman.generateWord();
+
+  });
 
 })();
