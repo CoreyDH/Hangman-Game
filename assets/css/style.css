@@ -17,3 +17,50 @@
   font-size: 20px;
   text-transform: uppercase;
 }
+
+#hangman-platform {
+  width: 600px;
+  height: 400px;
+  margin: auto;
+  position: relative;
+  border: 1px solid #000;
+}
+
+#hangman-platform div {
+  position: absolute;
+}
+
+#hangman-platform-bottom {
+  width: 300px;
+  height: 5px;
+  background-color: #000;
+  bottom: 20px;
+  left: 150px;
+}
+
+#hangman-platform-pillar {
+  width: 5px;
+  height: 250px;
+  background-color: #000;
+  bottom: 20px;
+  left: 400px;
+}
+
+#hangman-platform-top {
+  width: 150px;
+  height: 5px;
+  background-color: #000;
+  bottom: 265px;
+  left: 255px;
+}
+
+#hangman-chances-wrapper {
+  padding: 10px;
+  border: 1px solid #000;
+  border-radius: 5px;
+  position:absolute;
+}
+#hangman-chances {
+  font-size: 20px;
+  font-weight: 600;
+}
