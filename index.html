@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Hangman</title>
   <link rel="stylesheet" href="assets/css/reset.css">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link rel="stylesheet" href="assets/vendor/bootstrap/css/bootstrap.min.css">
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
@@ -14,40 +14,75 @@
     <header>
       <div class="container">
         <div class="row">
-          <h1 class="text-center">Let's Play Hangman!</h1>
+          <h1 class="text-center">HANGMAN</h1>
+          <h2 class="text-center">Classical Instruments</h2>
         </div>
       </div>
     </header>
     <div class="container">
       <div class="row">
-        <main>
-          <div class="col-md-12">
-            <div id="hangman-chances-wrapper" class="text-center">
-              <h5>Chances Remaining</h5>
-              <div id="hangman-chances"></div>
+        <main class="col-md-12">
+
+          <div class="col-md-2 controls text-center">
+            <div id="hangman-chances-wrapper" class="col-md-12 white-bg">
+              <div class="row">
+                <h5>Chances Remaining</h5>
+                <div id="hangman-chances"></div>
+              </div>
             </div>
-            <div id="hangman-platform">
-              <div id="hangman-platform-bottom"></div>
-              <div id="hangman-platform-pillar"></div>
-              <div id="hangman-platform-top"></div>
-              <div id="hangman-platform-noose"></div>
-              <div id="hangman-head"></div>
-              <div id="hangman-body"></div>
-              <div id="hangman-leftarm"></div>
-              <div id="hangman-rightarm"></div>
-              <div id="hangman-leftleg"></div>
-              <div id="hangman-rightleg"></div>
+
+            <div class="settings col-md-12">
+              <div class="row">
+                <div id="hangman-sound" class="white-bg">
+                  <span class="glyphicon glyphicon-volume-up"></span>
+                </div>
+                <div id="hangman-settings"class="white-bg">
+                  <span class="glyphicon glyphicon-cog"></span>
+                </div>
+              </div>
             </div>
-            <div>
-              <a href="#" id="hangman-generate">Generate Word</a>
+
+            <div class="col-md-12">
+              <div class="row">
+                <a href="#" id="hangman-generate" class="btn btn-success">Generate Word</a>
+              </div>
+            </div>
+
+            <div id="hangman-guessed-wrapper" class="col-md-12 white-bg">
+              <div class="row">
+                <h5>Letters Used</h5>
+                <ul id="hangman-guessed" class="text-center"></ul>
+              </div>
             </div>
           </div>
-          <div class="col-md-12">
-            <ul id="hangman-word" class="text-center"></ul>
+
+          <div class="col-md-10">
+            <div class="white-bg margin20">
+              <div id="hangman-platform">
+                <div id="hangman-bottom"></div>
+                <div id="hangman-pillar"></div>
+                <div id="hangman-top"></div>
+                <div id="hangman-support"></div>
+                <div id="hangman-noose"></div>
+                <div id="hangman-head"></div>
+                <div id="hangman-torso"></div>
+                <div id="hangman-leftarm"></div>
+                <div id="hangman-rightarm"></div>
+                <div id="hangman-leftleg"></div>
+                <div id="hangman-rightleg"></div>
+              </div>
+            </div>
+
+            <div class="col-md-12 margin20">
+              <div class="row">
+                <div class="white-bg">
+                  <ul id="hangman-word" class="text-center"></ul>
+                </div>
+              </div>
+            </div>
+
           </div>
-          <div class="col-md-12">
-            <ul id="hangman-guessed" class="text-center"></ul>
-          </div>
+
         </main>
       </div>
     </div>

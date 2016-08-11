@@ -14,10 +14,15 @@
       this.wordInProgress = [];
       this.userGuess = '';
       this.alreadyGuessed = [];
-      this.chances = 10;
+      this.chances = 11;
 
-      if(this.wordList.length < 1)
+      this.animation.clear();
+
+      if(this.wordList.length < 1) {
         this.getList();
+      } else {
+        hangman.generateWord();
+      }
 
     },
 
@@ -66,6 +71,8 @@
       for(var i=0; i < this.word.length; i++) {
 
         var li = document.createElement("LI");
+        var text = document.createTextNode('\u00A0');
+        li.appendChild(text);
         ulWord.appendChild(li);
 
       }
@@ -76,12 +83,10 @@
       // Check keycodes a-z
       if(keyInput >= 65 && keyInput <= 90) {
 
-        this.userGuess = String.fromCharCode(keyInput).toLowerCase();
         return false;
 
       } else {
 
-        alert('That\'s not a letter!');
         return true;
 
       }
@@ -92,7 +97,6 @@
 
       if(this.alreadyGuessed.indexOf(this.userGuess) !== -1) {
 
-        alert('You\'ve already guessed that letter!');
         return true;
 
       } else {
@@ -118,23 +122,20 @@
         }
       }
 
-      console.log(this.wordInProgress.length, this.word.length);
-
       if(this.wordInProgress.length === this.word.length) {
 
         // Trigger win
-        alert('You win! The word was '+this.word+'!');
+        this.win();
 
       } else if(this.wordInProgress.length > oldWordLength) {
 
-        console.log(this.wordInProgress);
+
         // Play sound
 
       } else {
 
         // Remove guess chance
         this.removeChance();
-
       }
 
       this.addGuessedHTML();
@@ -163,19 +164,43 @@
     removeChance : function() {
 
       this.chances--;
-
-      if(this.chances < 1) {
-
-        // Trigger loss
-
-      }
+      this.animation.load();
 
       var div = document.getElementById("hangman-chances");
       div.innerHTML = this.chances;
 
+      // Check if lost
+      if(this.chances < 1)
+        this.lose();
     },
 
+    win : function() {
+      alert('Congratulations! You win! The word was '+this.word+'!');
+    },
 
+    lose : function() {
+      alert('Better luck next time! The word was '+this.word+'!');
+    },
+
+    animation: {
+      load: function() {
+
+        var parts = ['bottom', 'pillar', 'support', 'top', 'noose', 'head', 'torso', 'leftarm', 'rightarm', 'leftleg', 'rightleg'];
+        var index = parts.length - hangman.chances - 1;
+
+        document.getElementById('hangman-'+parts[index]).style.opacity = 1;
+
+      },
+      clear: function() {
+
+        var divs = document.getElementById('hangman-platform').children;
+
+        for(var i=0; i < divs.length; i++) {
+          divs[i].style.opacity = 0;
+        }
+
+      }
+    }
   };
 
   // Create object properties
@@ -185,12 +210,18 @@
   document.onkeyup = function(event){
 
     // Check if input is not an alphabetic character
-    if(hangman.checkBadInput(event.keyCode))
+    if(hangman.checkBadInput(event.keyCode)) {
+      alert('That\'s not a letter!');
       return;
+    } else {
+      hangman.userGuess = String.fromCharCode(event.keyCode).toLowerCase();
+    }
 
     // Check if user already tried that letter
-    if(hangman.checkIfGuessed())
+    if(hangman.checkIfGuessed()) {
+      alert('You\'ve already guessed that letter!');
       return;
+    }
 
     // Check if letter is in the word
     hangman.checkInWord();
@@ -201,7 +232,7 @@
   document.getElementById('hangman-generate').addEventListener('click', function(event) {
 
     event.preventDefault();
-    hangman.generateWord();
+    hangman.start();
 
   });
 
