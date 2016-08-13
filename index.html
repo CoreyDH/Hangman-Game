@@ -15,7 +15,7 @@
       <div class="container">
         <div class="row">
           <h1 class="text-center">HANGMAN</h1>
-          <h2 class="text-center">Classical Instruments</h2>
+          <h2 class="text-center">Orchestral Instruments</h2>
         </div>
       </div>
     </header>
@@ -86,6 +86,56 @@
         </main>
       </div>
     </div>
+  </div>
+
+  <div id="modal-container">
+    <div id="modal-overlay"></div>
+    <div id="modal-box">
+      <div id="modal-content"></div>
+      <div id="modal-settings">
+        <h5 class="text-center">Settings</h5>
+        <table class="table">
+          <tr>
+            <td class="text-right">Difficulty</td>
+            <td>
+              <select name="chances-difficulty" id="chances-num">
+                <option value="11">Normal (11)</option>
+                <option value="22">Easy (22)</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td class="text-right">Word Length</td>
+            <td>
+              <select name="wordlength" id="word-length">
+                <option value="0" selected>Any</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td class="text-center hangman-score" colspan="2">Your Score</td>
+          </tr>
+          <tr>
+            <td class="text-center col-md-6">Wins: <span id="hangman-wins">0</span></td>
+            <td class="text-center col-md-6">Losses <span id="hangman-losses">0</span></td>
+          </tr>
+          <tr>
+            <td class="text-center" colspan="2"><a href="#" class="btn btn-warning" id="start-over">Start New Game</a> <a href="#" id="modal-close" class="btn btn-danger">Close</a></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="audio">
+    <audio src="assets/sounds/canon.mp3" id="hangman-music-bg" controls loop></audio>
   </div>
 </body>
 <script src="assets/javascript/game.js"></script>

@@ -46,6 +46,9 @@ body {
   margin: 5px;
   cursor: pointer;
 }
+.hangman-score {
+  background-color: #f1f1f1;
+}
 
 /* Main */
 #hangman-word li {
@@ -176,7 +179,7 @@ body {
   width: 3px;
   height: 90px;
   background-color: #000;
-  bottom: 79px;
+  bottom: 77px;
   left: 83px;
   -ms-transform: rotate(15deg);
   -webkit-transform: rotate(15deg);
@@ -188,10 +191,59 @@ body {
   width: 3px;
   height: 90px;
   background-color: #000;
-  bottom: 79px;
+  bottom: 77px;
   left: 107px;
   -ms-transform: rotate(165deg);
   -webkit-transform: rotate(165deg);
   transform: rotate(165deg);
   opacity: 0;
+}
+
+/* Modal CSS */
+#modal-container {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: none;
+  opacity: 0;
+  transition: opacity 1s;
+  -webkit-transition: opacity 1s;
+}
+#modal-overlay {
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0,0,0,0.5);
+}
+#modal-box {
+  position:fixed;
+  height: 70%;
+  width: 30%;
+  min-height: 500px;
+  min-width: 300px;
+  top: 8%;
+  left: 35%;
+  background-color: white;
+  box-shadow: 0px 1px 1px #000;
+  border-radius: 10px;
+  padding:15px;
+  overflow: hidden;
+  z-index: 1050;
+}
+#modal-box h1, #modal-box h2, #modal-box h3, #modal-box h4, #modal-box h5 {
+  text-align:center;
+}
+#modal-settings {
+  margin-top: 20px;
+}
+#modal-settings h5 {
+  font-weight: 600;
+  background: #333;
+  color: #f1f1f1;
+  padding: 10px 0;
+}
+
+/* Audio */
+.audio {
+  display: none;
 }
