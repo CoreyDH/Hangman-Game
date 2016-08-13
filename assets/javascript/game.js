@@ -320,7 +320,6 @@
 
                 case this.loseSound :
                   this.loseSound = new Audio(this.path+'/'+hangman.getRandom(this.loseTracks));
-
                   break;
 
                 case this.rightNoise :
@@ -451,7 +450,7 @@
     };
 
     // Let the games begin
-    hangman.modal.html('<h1>Wecome to Hangman</h1><p>Your goal is to guess the word shown by underlining dashes. <br /><br />Press any alphabetic key to help guess the word. If you fail, a piece of the hangman will appear.  If all pieces assemble, the game is over and you lose.</p><h4>Save the man and you win!</h4>');
+    hangman.modal.html('<h1>Wecome to Hangman</h1><p>Your goal is to guess the word shown by the underlining dashes. <br /><br />Press any alphabetic key to help guess the word. If you fail, a piece of the gallows(and eventually the man) will appear.  If all pieces assemble, the game is over and you lose.</p><h4>Save the man and you win!</h4>');
     hangman.start();
 
     // Event listeners
