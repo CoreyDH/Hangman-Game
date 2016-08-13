@@ -6,6 +6,18 @@ body {
   background-attachment: fixed;
   background-repeat: no-repeat;
 }
+header h1 {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 50px;;
+  margin-left: -76px
+}
+header h2 {
+  font-family: 'Tangerine', cursive;
+  font-size: 46px;
+  margin-top: -15px;
+  margin-left: 76px;
+  color: #929292;
+}
 .white-bg {
   border: 1px solid #ccc;
   border-radius: 5px;
@@ -216,13 +228,12 @@ body {
   background-color: rgba(0,0,0,0.5);
 }
 #modal-box {
-  position:fixed;
+  position: relative;
   height: 70%;
   width: 30%;
   min-height: 500px;
   min-width: 300px;
-  top: 8%;
-  left: 35%;
+  top: 40px;
   background-color: white;
   box-shadow: 0px 1px 1px #000;
   border-radius: 10px;

@@ -20,6 +20,7 @@
             this.difficulty = this.chances > 11 ? 'easy' : 'normal';
 
             this.animation.clear();
+            this.sound.init();
 
             if (this.wordList.length < 1) {
                 this.getList();
@@ -147,6 +148,7 @@
 
             var oldWordLength = this.wordInProgress.length;
 
+            // Find letter in word
             for (var i = 0; i < this.word.length; i++) {
 
                 if (this.userGuess === this.word[i]) {
@@ -215,14 +217,16 @@
 
             this.wins++;
             document.getElementById('hangman-wins').innerHTML = this.wins;
-            this.modal.html('<h1 class="text-center">YOU WIN</h1>');
+            this.modal.html('<h1 class="text-center">YOU WIN</h1><h3>The word was <strong>'+this.word+'</strong></h3>');
+            this.sound.victory();
         },
 
         lose: function() {
 
             this.losses++;
             document.getElementById('hangman-losses').innerHTML = this.losses;
-            this.modal.html('<h1 class="text-center">YOU LOSE!</h1>');
+            this.modal.html('<h1 class="text-center">YOU LOSE</h1><h3>The word was <strong>'+this.word+'</strong></h3>');
+            this.sound.defeat();
         },
 
         keyOn: function() {
@@ -294,50 +298,109 @@
           mute: false,
           winTracks: ['ff7victory.mp3'], // Plays on win
           loseTracks: ['sadviolinmlg.mp3','heartwillgoon.mp3'], // Plays on loss
-          rightTracks: [],
-          wrongTracks: [],
+          rightTracks: ['violinright.mp3'], // Play on correct guess
+          wrongTracks: [''], // Play on wrong guess
           path: 'assets/sounds',
           bgMusic: document.getElementById('hangman-music-bg'),
 
           init: function() {
 
-            this.allTracks = [];
+            var defineCheck = true;
 
-            this.winSound = hangman.getRandom(this.winTracks);
-            this.loseSound = hangman.getRandom(this.loseTracks);
-            this.rightNoise = hangman.getRandom(this.rightTracks);
-            this.wrongNoise = hangman.getRandom(this.wrongTracks);
+            while(defineCheck) {
+              switch(undefined) {
+
+                default:
+                  defineCheck = false;
+                  break;
+
+                case this.winSound :
+                  this.winSound = new Audio(this.path+'/'+hangman.getRandom(this.winTracks));
+                  break;
+
+                case this.loseSound :
+                  this.loseSound = new Audio(this.path+'/'+hangman.getRandom(this.loseTracks));
+
+                  break;
+
+                case this.rightNoise :
+                  this.rightNoise = new Audio(this.path+'/'+hangman.getRandom(this.rightTracks));
+                  break;
+
+                case this.wrongNoise :
+                  this.wrongNoise = new Audio(this.path+'/'+hangman.getRandom(this.wrongTracks));
+                  break;
+              }
+            }
+
+            this.allTracks = [this.winSound, this.loseSound, this.rightNoise, this.wrongNoise];
+            this.stopOther();
 
             this.bgMusic.play();
 
           },
 
-          toggleMute: function(el) {
+          toggleMute: function() {
 
-            console.log(el.children);
             this.mute = this.mute ? false : true;
 
             var icon = this.mute ? 'glyphicon glyphicon-volume-off' : 'glyphicon  glyphicon-volume-up';
 
+            for(var i=0; i < this.allTracks.length; i++) {
+              this.allTracks[i].muted = this.mute;
+            }
             this.bgMusic.muted = this.mute;
-            el.className = icon;
-
+            document.getElementById('hangman-sound-icon').className = icon;
 
           },
 
           right: function() {
 
+            if(!this.mute) {
+              this.rightNoise.play();
+            }
+
           },
+
           wrong: function() {
 
+            if(!this.mute) {
+              this.wrongNoise.play();
+            }
+
           },
+
           victory: function() {
 
-          },
-          death: function() {
+            if(!this.mute) {
+              this.bgMusic.pause();
+              this.winSound.play();
+            }
 
           },
-          stop: function() {
+
+          defeat: function() {
+
+            if(!this.mute) {
+              this.bgMusic.pause();
+              this.loseSound.play();
+            }
+
+          },
+
+          stop: function(audio) {
+
+            audio.pause();
+            audio.currentTime = 0;
+
+          },
+
+          stopOther: function() {
+
+            for(var i=0; i < this.allTracks.length; i++) {
+              this.allTracks[i].pause();
+              this.allTracks[i].currentTime = 0;
+            }
 
           }
 
@@ -345,42 +408,50 @@
 
         modal: {
 
-            open: function() {
+          container : document.getElementById('modal-container'),
 
-                var container = document.getElementById('modal-container');
-                container.style.display = 'initial';
-                container.style.opacity = 1;
+          open: function() {
 
-                hangman.keyOff();
+              this.container.style.display = 'initial';
+              this.container.style.opacity = 1;
+              this.resize();
 
-            },
+              hangman.keyOff();
 
-            close: function() {
+          },
 
-                var container = document.getElementById('modal-container');
-                var box = document.getElementById('modal-content');
-                container.style.display = 'none';
-                container.style.opacity = 0;
-                box.innerHTML = '';
+          close: function() {
 
-                hangman.keyOn();
+              this.container.style.display = 'none';
+              this.container.style.opacity = 0;
 
-            },
+              hangman.keyOn();
 
-            html: function(content) {
+          },
 
-                var box = document.getElementById('modal-content');
-                box.innerHTML = content;
-                this.open();
+          resize: function() {
 
-            }
+            var windowWidth = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+            var modalBox = document.getElementById('modal-box');
+
+            modalBox.style.left = (windowWidth/2 - modalBox.clientWidth/2)+'px';
+
+          },
+
+          html: function(content) {
+
+              var cBox = document.getElementById('modal-content');
+              cBox.innerHTML = content;
+              this.open();
+
+          }
 
         },
 
     };
 
     // Let the games begin
-    hangman.modal.html('<h1>Wecome to Hangman</h1><p>Your goal is to guess the word shown by underlining dashes. <br /><br />Press any alphabetic key to help guess the word. If you fail, a piece of the hangman will appear.  If all pieces assemble, the game is over and you lose.</p><h4>Save the hangman and you win!</h4>');
+    hangman.modal.html('<h1>Wecome to Hangman</h1><p>Your goal is to guess the word shown by underlining dashes. <br /><br />Press any alphabetic key to help guess the word. If you fail, a piece of the hangman will appear.  If all pieces assemble, the game is over and you lose.</p><h4>Save the man and you win!</h4>');
     hangman.start();
 
     // Event listeners
@@ -391,10 +462,10 @@
 
     });
 
-    document.querySelector('#hangman-sound > span').addEventListener('click', function(event) {
+    document.getElementById('hangman-sound').addEventListener('click', function(event) {
 
         event.preventDefault();
-        hangman.sound.toggleMute(event.target);
+        hangman.sound.toggleMute();
 
     });
 
@@ -428,5 +499,10 @@
         hangman.modal.close();
 
     });
+
+    // Detect resize
+    window.onresize = function(event) {
+      hangman.modal.resize();
+    };
 
 })();
